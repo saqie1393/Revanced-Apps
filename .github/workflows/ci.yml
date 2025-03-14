@@ -2,7 +2,7 @@ name: CI
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 16 * * *"
+    - cron: "30 0 2 * *"
 
 jobs:
   check:
@@ -42,9 +42,9 @@ jobs:
     outputs:
       SHOULD_BUILD: ${{ steps.should_build.outputs.SHOULD_BUILD }}
 
-  build:
+  matrix-build:
     permissions: write-all
     needs: check
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/matrix-build.yml
     if: ${{ needs.check.outputs.SHOULD_BUILD == 1 }}
     secrets: inherit
