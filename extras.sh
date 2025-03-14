@@ -22,24 +22,25 @@ get_rv_prebuilts() {
     if [ "$patches_ver" ]; then rv_patches_rel+="tags/${patches_ver}"; else rv_patches_rel+="latest"; fi
     rv_cli_url=$(gh_req "$rv_cli_rel" - | json_get 'browser_download_url') || return 1
     local rv_cli_jar="${cli_dir}/${rv_cli_url##*/}"
-    echo "CLI: $(cut -d/ -f4 <<<"$rv_cli_url")/$(cut -d/ -f9 <<<"$rv_cli_url")  "
+    echo "CLI: $(cut -d/ -f4 <<<"$rv_cli_url")/$(cut -d/ -f9 <<<"$rv_cli_url")"
 
     rv_integrations_url=$(gh_req "$rv_integrations_rel" - | json_get 'browser_download_url') || return 1
     local rv_integrations_apk="${integrations_dir}/${rv_integrations_url##*/}"
-    echo "Integrations: $(cut -d/ -f4 <<<"$rv_integrations_url")/$(cut -d/ -f9 <<<"$rv_integrations_url")  "
+    echo "Integrations: $(cut -d/ -f4 <<<"$rv_integrations_url")/$(cut -d/ -f9 <<<"$rv_integrations_url")"
 
     rv_patches=$(gh_req "$rv_patches_rel" -) || return 1
     # rv_patches_changelog=$(json_get 'body' <<<"$rv_patches" | sed 's/\(\\n\)\+/\\n/g')
     rv_patches_dl=$(json_get 'browser_download_url' <<<"$rv_patches")
     rv_patches_json="${patches_dir}/patches-$(json_get 'tag_name' <<<"$rv_patches").json"
-    rv_patches_url=$(grep 'jar' <<<"$rv_patches_dl")
+    rv_patches_url=$(echo "$rv_patches_dl" | grep -Ei '\.rvp$' | head -n 1)
     local rv_patches_jar="${patches_dir}/${rv_patches_url##*/}"
     [ -f "$rv_patches_jar" ] || REBUILD=true
     local nm
     nm=$(cut -d/ -f9 <<<"$rv_patches_url")
-    echo "Patches: $(cut -d/ -f4 <<<"$rv_patches_url")/$nm  "
+    echo "Patches: $(cut -d/ -f4 <<<"$rv_patches_url")/$nm"
     # shellcheck disable=SC2001
-    echo -e "[Changelog](https://github.com/${patches_src}/releases/tag/v$(sed 's/.*-\(.*\)\..*/\1/' <<<"$nm"))\n"
+    patch_version=$(json_get 'tag_name' <<<"$rv_patches")
+    echo -e "[Changelog](https://github.com/${patches_src}/releases/tag/${patch_version})"
     # echo -e "\n${rv_patches_changelog//# [/### [}\n---" >>"$patches_dir/changelog.md"
 
     # echo "$rv_cli_jar" "$rv_integrations_apk" "$rv_patches_jar" "$rv_patches_json"
