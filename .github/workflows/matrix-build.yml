@@ -176,9 +176,9 @@ jobs:
           git checkout update
           filename="build.md"
           /tmp/extras.sh "revanced/revanced-integrations" "revanced/revanced-patches" "revanced/revanced-cli" > $filename
-          echo -e "\n\n" >> $filename
+          echo -e "\n" >> $filename
           /tmp/extras.sh "inotia00/revanced-integrations" "inotia00/revanced-patches" "inotia00/revanced-cli" >> $filename
-          echo -e "\n\n" >> $filename
+          echo -e "\n" >> $filename
           /tmp/extras.sh "anddea/revanced-integrations" "anddea/revanced-patches" "revanced/revanced-cli" >> $filename
           cat $filename
           git add $filename
