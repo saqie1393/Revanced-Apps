@@ -20,6 +20,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Update config
+        if: ${{ inputs.from_ci }}
+        run: |
+          if git checkout origin/update build.md; then
+            UPDATE_CFG=$(./build.sh config.toml --config-update)
+            if [ "$UPDATE_CFG" ]; then
+              echo "$UPDATE_CFG" > config.json
+            fi
+          fi
+
       - name: Prepare version
         id: version
         run: echo "versionr=$(date +v%d-%m-%Y)" >> $GITHUB_OUTPUT
