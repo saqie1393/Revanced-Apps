@@ -1,5 +1,6 @@
 # ReVanced Magisk Module
 [![Matrix Build Modules](https://github.com/WildeBeast2521/ReVanced/actions/workflows/matrix-build.yml/badge.svg)](https://github.com/WildeBeast2521/ReVanced/actions/workflows/matrix-build.yml)
+[![CI](https://github.com/WildeBeast2521/revanced-jhc/actions/workflows/ci.yml/badge.svg?event=schedule)](https://github.com/WildeBeast2521/revanced-jhc/actions/workflows/ci.yml)
 
 Extensive ReVanced builder
 
