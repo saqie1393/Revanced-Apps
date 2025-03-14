@@ -24,8 +24,9 @@ uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
 
 [GooglePhotos]
 build-mode = "both"
+arch = "both"
 version = "auto"
-# apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos/"
 uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 
 # dont build on gh actions (https://github.com/j-hc/revanced-magisk-module/issues/554)
