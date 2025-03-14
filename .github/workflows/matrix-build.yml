@@ -1,0 +1,191 @@
+name: Matrix Build Modules
+on:
+
+  schedule:
+    - cron: "30 0 2 * *"
+
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  generate-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.versionr }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare version
+        id: version
+        run: echo "versionr=$(date +v%d-%m-%Y)" >> $GITHUB_OUTPUT
+
+      - name: Generate release
+        run: |
+          version=${{ steps.version.outputs.versionr }}
+          echo -e "# ReVanced Patches\n" > release_notes.md
+          dateRevanced=$(date -u -d $(gh release view --json publishedAt -q .publishedAt --repo revanced/revanced-patches))
+          echo -e "\n Published on $dateRevanced\n" >> release_notes.md
+          gh release view --json body -q .body --repo revanced/revanced-patches >> release_notes.md
+          echo -e "\n---\n" >> release_notes.md
+          echo -e "# RVX Patches\n" >> release_notes.md
+          dateRex=$(date -u -d $(gh release view --json publishedAt -q .publishedAt --repo inotia00/revanced-patches))
+          echo -e "\n Published on $dateRex\n" >> release_notes.md
+          gh release view --json body -q .body --repo inotia00/revanced-patches >> release_notes.md
+          echo -e "\n---\n" >> release_notes.md
+          echo -e "# Anddea Patches\n" >> release_notes.md
+          dateAnddea=$(date -u -d $(gh release view --json publishedAt -q .publishedAt --repo anddea/revanced-patches))
+          echo -e "\n Published on $dateAnddea\n" >> release_notes.md
+          gh release view --json body -q .body --repo anddea/revanced-patches >> release_notes.md
+          echo -e "\n---\n" >> release_notes.md
+          echo -e "\nUse [MicroG](https://github.com/ReVanced/GmsCore/releases/latest) for YouTube and Music" >> release_notes.md
+          sed -i "1s/^/Release $version\n\n/" release_notes.md
+          gh release create "$version" --draft -t "$version" -F release_notes.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  run:
+    runs-on: ubuntu-latest
+    needs: generate-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: "YouTube-Extended"
+          - id: "Music-Extended"
+          - id: "Reddit-Extended"
+          - id: "YouTube-anddea"
+          - id: "Music-anddea"
+          - id: "YouTube"
+          - id: "Music"
+          - id: "Twitter"
+          - id: "Twitch"
+          - id: "TikTok"
+          - id: "Reddit"
+          - id: "Messenger"
+          - id: "Facebook"
+          - id: 'Spotify'
+          - id: "Spotify-Lite"
+          #   - id: "Citra"
+          #   - id: "Backdrops"
+          #   - id: "WarnWetter"
+          #   - id: "Windyapp"
+          - id: "MyExpenses"
+          - id: "NyxMusicPlayer"
+          - id: "IconPackStudio"
+          - id: "TickTick"
+          - id: "Tasker"
+          - id: "Photomath"
+          # - id: "Instagram-armeabi-v7a"
+          - id: "Instagram"
+          - id: "InShorts"
+          #   - id: "SyncForReddit"
+          - id: "InfinityForReddit"
+          - id: "VSCO"
+          - id: "Pixiv"
+          #   - id: "Trakt"
+          - id: "MemeGenerator"
+          - id: "Lightroom"
+          - id: "Tumblr"
+
+    env:
+      RELEASE_VERSION: ${{ needs.generate-release.outputs.version }}
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Generate ${{ matrix.id }} config
+        run: |
+           ./gen_sep_config.sh config.toml ${{ matrix.id }} sep_config.toml
+           cat sep_config.toml
+
+      - name: Build modules/APKs
+        continue-on-error: true
+        run: |
+          count=0
+          if ! ./build.sh sep_config.toml; then
+            count=$((count+1))
+            if [ $count -lt 2 ]; then
+              rm -rf temp build
+              ./build.sh sep_config.toml
+            else
+              echo "Failed to build ${{ matrix.id }} after 3 attempts"
+              exit 1
+            fi
+          fi
+        env:
+          NEXT_VER_CODE: ${{ env.RELEASE_VERSION }}
+
+      - name: Get output
+        id: get_output
+        if: ${{ matrix.id == 'YouTube' }} && success()
+        run: |
+          DELIM="$(openssl rand -hex 8)"
+          echo "BUILD_LOG<<${DELIM}" >> "$GITHUB_OUTPUT"
+          cat build.md >> "$GITHUB_OUTPUT"
+          echo "${DELIM}" >> "$GITHUB_OUTPUT"
+          cp -f build.md build.tmp
+
+      - name: Upload modules to release
+        if: success()
+        run: |
+          # get all apk and zip files in ./build/* directory, for each run gh release upload
+          for file in $(find build -type f -name "*.apk" -o -name "*.zip"); do
+            gh release upload ${{ env.RELEASE_VERSION }} $file
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-metadata:
+    needs: [generate-release, run]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare build.md
+        run: |
+          cp extras.sh /tmp/extras.sh
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch
+          git checkout update
+          filename="build.md"
+          /tmp/extras.sh "revanced/revanced-integrations" "revanced/revanced-patches" "revanced/revanced-cli" > $filename
+          echo -e "\n\n" >> $filename
+          /tmp/extras.sh "inotia00/revanced-integrations" "inotia00/revanced-patches" "inotia00/revanced-cli" >> $filename
+          echo -e "\n\n" >> $filename
+          /tmp/extras.sh "anddea/revanced-integrations" "anddea/revanced-patches" "revanced/revanced-cli" >> $filename
+          cat $filename
+          git add $filename
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Bump version ${{ needs.generate-release.outputs.version }}"
+            git push
+          fi
+
+  release:
+    needs: [generate-release, run]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark release non-draft
+        run: |
+          if [[ ${{ github.ref_name }} == 'main' ]]; then
+            gh release edit ${{ needs.generate-release.outputs.version }} --draft=false --latest --repo ${{ github.repository }}
+          else
+            gh release edit ${{ needs.generate-release.outputs.version }} --draft=false --prerelease --repo ${{ github.repository }}
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
