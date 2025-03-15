@@ -1,7 +1,7 @@
 # ReVanced Magisk Module
 [![CI](https://github.com/WildeBeast2521/revanced/actions/workflows/ci.yml/badge.svg?event=schedule)](https://github.com/WildeBeast2521/revanced/actions/workflows/ci.yml)
 
-Extensive revanced builder
+Extensive ReVanced builder
 
 Get the [latest release](../../releases).
 
@@ -9,7 +9,7 @@ Use [**zygisk-detach**](https://github.com/j-hc/zygisk-detach) to detach YouTube
 
 <details><summary><big>Features</big></summary>
 <ul>
- <li>Support all present and future revanced and <a href="https://github.com/inotia00/revanced-patches">revanced Extended</a> apps</li>
+ <li>Support all present and future ReVanced and <a href="https://github.com/inotia00/revanced-patches">ReVanced Extended</a> apps</li>
  <li> Can build Magisk modules and non-root APKs</li>
  <li> Updated daily with the latest versions of apps and patches</li>
  <li> Optimize APKs and modules for size</li>
@@ -22,7 +22,7 @@ Use [**zygisk-detach**](https://github.com/j-hc/zygisk-detach) to detach YouTube
      <li> support Magisk and KernelSU</li>
     </ul>
 </ul>
-Note that the <a href="../../actions/workflows/matrix-build.yml">Matrix Build Modules workflow</a> is scheduled to build the modules and APKs every Saturday using GitHub Actions if there is a change in revanced patches. You may want to disable it.
+Note that the <a href="../../actions/workflows/ci.yml">CI workflow</a> is scheduled to build the modules and APKs each month using GitHub Actions if there is a change in ReVanced patches. You may want to disable it.
 </details>
 
 ## To include/exclude patches or patch other apps
