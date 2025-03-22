@@ -22,7 +22,7 @@ Use [**zygisk-detach**](https://github.com/j-hc/zygisk-detach) to detach YouTube
      <li> support Magisk and KernelSU</li>
     </ul>
 </ul>
-Note that the <a href="../../actions/workflows/ci.yml">CI workflow</a> is scheduled to build the modules and APKs each month using GitHub Actions if there is a change in ReVanced patches. You may want to disable it.
+Note that the <a href="../../actions/workflows/ci.yml">CI workflow</a> is scheduled to build the modules and APKs each day using GitHub Actions if there is a change in ReVanced patches. You may want to disable it.
 </details>
 
 ## To include/exclude patches or patch other apps
