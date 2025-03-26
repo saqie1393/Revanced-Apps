@@ -84,6 +84,13 @@ patcher-args = """\
   """
 # archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
 
+[Spotify]
+enabled = true
+app-name = "Spotify"
+version = "auto"
+build-mode = "apk"
+uptodown-dlurl = "https://spotify.en.uptodown.com/android"
+
 [Twitch]
 enabled = false
 apkmirror-dlurl = "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch/"
@@ -106,10 +113,6 @@ included-patches = "'SIM spoof'"
 enabled = false
 apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger/"
 arch = "arm64-v8a"
-
-[Spotify]
-enabled = false
-uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 
 [IconPackStudio]
 enabled = false
