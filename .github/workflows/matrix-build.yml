@@ -64,21 +64,21 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - id: "YouTube"
+          - id: "Music"
+          - id: "YouTube-anddea"
+          - id: "Music-anddea"
+          - id: "GooglePhotos"
+          - id: "Spotify"
           #   - id: "YouTube-Extended"
           #   - id: "Music-Extended"
           #   - id: "Reddit-Extended"
-          - id: "YouTube-anddea"
-          - id: "Music-anddea"
-          - id: "YouTube"
-          - id: "Music"
-          - id: "GooglePhotos"
           #   - id: "Twitter"
           #   - id: "Twitch"
           #   - id: "TikTok"
           #   - id: "Reddit"
           #   - id: "Messenger"
           #   - id: "Facebook"
-          #   - id: 'Spotify'
           #   - id: "Spotify-Lite"
           #   - id: "Citra"
           #   - id: "Backdrops"
