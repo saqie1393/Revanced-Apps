@@ -64,9 +64,9 @@ uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 
 [Spotify]
 enabled = true
-version = "auto"
+version = "9.0.30.631" # Use only .apk versions from Uptodown
 build-mode = "apk"
-arch = "both"
+arch = "all"
 uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 
 # dont build on gh actions (https://github.com/j-hc/revanced-magisk-module/issues/554)
