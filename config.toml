@@ -44,7 +44,7 @@ patcher-args = """\
 [Music-anddea]
 enabled = true
 app-name = "Music"
-version = "latest"
+version = "auto"
 arch = "both"
 patches-source = "anddea/revanced-patches"
 integrations-source = "anddea/revanced-integrations"
