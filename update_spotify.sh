@@ -44,7 +44,6 @@ CONFIG_VERSION=$(awk '
         exit
     }
 ' "$CONFIG_TOML")
-echo $CONFIG_VERSION
 
 if [ -z "$CONFIG_VERSION" ]; then
     echo "Could not find Spotify version in $CONFIG_TOML"
