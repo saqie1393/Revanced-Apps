@@ -57,6 +57,20 @@ jobs:
           gh release create "$version" --draft -t "$version" -F release_notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-spotify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Spotify version
+        run: |
+          if bash update_spotify.sh; then
+            git add config.toml
+            git commit -m "Update Spotify version to latest"
+            git push
+          else
+            echo "No update needed"
+          fi
+
   run:
     runs-on: ubuntu-latest
     needs: generate-release
