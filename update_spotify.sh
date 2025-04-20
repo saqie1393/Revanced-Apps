@@ -55,6 +55,9 @@ if [[ "$CURRENT_VERSION" != "$CONFIG_VERSION" ]]; then
     echo "New version found: $CURRENT_VERSION (was $CONFIG_VERSION)"
     sed -i "/\[Spotify\]/,/^\[.*\]/ s/version *= *\"[^\"]*\"/version = \"$CURRENT_VERSION\"/" "$CONFIG_TOML"
     echo "Updated config.toml"
+    git add config.toml
+    git commit -m "Update Spotify version to $CURRENT_VERSION"
+    git push
     exit 0
 else
     echo "Version is up-to-date: $CURRENT_VERSION"
