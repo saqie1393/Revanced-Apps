@@ -61,5 +61,5 @@ if [[ "$CURRENT_VERSION" != "$CONFIG_VERSION" ]]; then
     exit 0
 else
     echo "Version is up-to-date: $CURRENT_VERSION"
-    exit 1
+    exit 0
 fi
