@@ -61,8 +61,13 @@ jobs:
   update-spotify:
      runs-on: ubuntu-latest
      steps:
-       - name: Update Spotify version
-         run: |
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Update Spotify version
+        run: |
            ./update_spotify.sh
 
   run:
