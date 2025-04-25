@@ -63,6 +63,9 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos/"
 uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 
 [Spotify]
+patches-source = "anddea/revanced-patches"
+integrations-source = "anddea/revanced-integrations"
+rv-brand = "anddea"
 uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 version = "9.0.36.689"
 
