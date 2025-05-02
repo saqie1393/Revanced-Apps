@@ -58,18 +58,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  update-spotify:
-     runs-on: ubuntu-latest
-     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-        with:
-          fetch-depth: 0
-
-      - name: Update Spotify version
-        run: |
-           ./update_spotify.sh
-
   run:
     runs-on: ubuntu-latest
     needs: generate-release
