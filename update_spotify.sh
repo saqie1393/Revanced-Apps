@@ -30,7 +30,7 @@ done < <(echo "$PAGE_CONTENT" | awk '
 
 if [ -z "$CURRENT_VERSION" ]; then
     echo "No version found!"
-    exit 1
+    exit
 fi
 
 # Get current version from config.toml
