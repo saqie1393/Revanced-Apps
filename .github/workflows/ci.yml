@@ -50,6 +50,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Update Spotify version
         run: |
            ./update_spotify.sh
