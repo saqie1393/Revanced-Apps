@@ -11,7 +11,7 @@ while IFS="|" read -r DL_URL VERSION; do
     ARCH_PAGE=$(curl -s -H "User-Agent: Mozilla/5.0" "$DL_URL")
     ARCH=$(echo "$ARCH_PAGE" | grep -A4 'icon-40-architecture' | grep '<td>' | sed -E 's/<[^>]+>//g' | xargs)
 
-    if [[ "$ARCH" =~ "armeabi-v7a" && "$ARCH" =~ "arm64-v8a" && ! "$ARCH" =~ "x86_64" && ! "$ARCH" =~ "mips" ]]; then
+    if [[ "$ARCH" =~ "armeabi-v7a" && "$ARCH" =~ "arm64-v8a" && "$ARCH" =~ "x86_64" && ! "$ARCH" =~ "mips" ]]; then
         CURRENT_VERSION="$VERSION"
         break
     fi
