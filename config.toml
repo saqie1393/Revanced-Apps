@@ -10,7 +10,7 @@ patches-version = "dev"
 # you can use rvmm-config-gen to generate a config
 
 [YouTube]
-enabled = false
+enabled = true
 app-name = "YouTube"
 build-mode = "both"#both means packing both apk and module at the same time. To pack only mask module, change both to module
 version = "19.16.39"#Remember to check the patch support version before each package
@@ -24,7 +24,7 @@ included-patches = "'Custom header for YouTube'"#Mandatory inclusion list Patche
 patcher-args = "-e 'Return YouTube Username' -e 'Custom branding icon for YouTube' -OappIcon='mmt_green' -OchangeSplashIcon='true' -OrestoreOldSplashAnimation='true'   -e 'Visual preferences icons for YouTube'  -OsettingsMenuIcon='yt_alt' -OapplyToAll='true' -e 'Custom Shorts action buttons' -OiconType='Cairo' -e 'Custom header for YouTube' -OcustomHeader='custom_branding_icon' -e 'Theme' -OdarkThemeBackgroundColor=#FF111111 -e 'Settings for YouTube' -OsettingsLabel='Revanced Extended' -OinsertPosition=@string/about_key"
 
 [Music-Extended]
-enabled = false
+enabled = true
 app-name = "YT Music"
 patcher-args = "-e 'Custom branding name for YouTube Music' -OappNameNotification='YT Music' -OappNameLauncher='YT Music' -e 'Custom branding icon for YouTube Music' -OappIcon='vanced_black' -OchangeSplashIcon='true' -OrestoreOldSplashAnimation='true' -e 'Custom header for YouTube Music' -OcustomHeader='custom_branding_icon' -e 'Visual preferences icons for YouTube Music' -OsettingsMenuIcon='custom_branding_icon' -e 'Settings for YouTube Music' -OsettingsLabel='YT Premium'"
 version = "auto"
